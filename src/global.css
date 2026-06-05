@@ -1,5 +1,5 @@
 @import "@fontsource/mulish";
-import "tailwindcss";
+@import "tailwindcss";
 
 @theme {
     --font-main: "Mulish", sans-serif;
@@ -8,8 +8,8 @@ import "tailwindcss";
     --secondary-color: hsl(234, 18%, 68%);
     --important-color: hsl(0, 93%, 42%);
     --active-color: hsl(164, 100%, 36%);
-    --title-info: hsl(247, 15%, 35%);
-    --title-info-gray: hsl(0, 0%, 67%);
+    --title-info-darkgrey: hsl(247, 15%, 35%);
+    --title-info-grey: hsl(0, 0%, 67%);
     --bg-color: hsl(220, 18%, 97%);
 }
 
