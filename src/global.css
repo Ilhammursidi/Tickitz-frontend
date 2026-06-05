@@ -1,15 +1,16 @@
-@import "tailwindcss";
 @import "@fontsource/mulish";
+import "tailwindcss";
 
-:root {
-    --font-main: mulish, sans-serif;
-    --primary-color: #1D4ED8;
-    --secondary-color: #A0A3BD;
-    --important-color: #D00707;
-    --active-color: #00BA88;
-    --title-info: #4E4B66;
-    --title-info2: #AAAAAA;
-    --bg-color: #F5F6F8;
+@theme {
+    --font-main: "Mulish", sans-serif;
+
+    --primary-color: hsl(224, 76%, 48%);
+    --secondary-color: hsl(234, 18%, 68%);
+    --important-color: hsl(0, 93%, 42%);
+    --active-color: hsl(164, 100%, 36%);
+    --title-info: hsl(247, 15%, 35%);
+    --title-info2: hsl(0, 0%, 67%);
+    --bg-color: hsl(220, 18%, 97%);
 }
 
 body {
