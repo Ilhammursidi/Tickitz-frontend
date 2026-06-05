@@ -36,4 +36,3 @@ export const Button = ({children,onClick,type,className="",color="", size="", sh
         </button>
     )
 }
-
