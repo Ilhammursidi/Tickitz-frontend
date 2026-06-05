@@ -7,11 +7,60 @@
     --color-secondary: hsl(234, 18%, 68%);
     --color-important: hsl(0, 93%, 42%);
     --color-active: hsl(164, 100%, 36%);
-    --title-info-darkgrey: hsl(247, 15%, 35%);
-    --title-info-grey: hsl(0, 0%, 67%);
+    --color-darkgrey: hsl(247, 15%, 35%);
+    --color-grey: hsl(0, 0%, 67%);
     --color-primary-bg: hsl(220, 18%, 97%);
 }
 
 body {
     font-family: var(--font-main);
+}
+@layer components {
+  .text-display-large-normal {
+    @apply font-normal text-5xl leading-13 tracking-widest md:text-6xl md:leading-16.5;
+  }
+  .text-display-medium-normal {
+        @apply font-normal text-3xl leading-9 tracking-widest md:text-5xl md:leading-16.5;
+  }
+  .text-display-small-normal {
+    @apply font-normal text-2xl leading-8 tracking-widest md:text-[32px] md:leading-16.5;
+  }
+  .text-display-large-bold {
+    @apply font-bold text-5xl leading-13 tracking-widest md:text-6xl md:leading-16.5;
+  }
+  .text-display-medium-bold {
+    @apply font-bold text-3xl leading-9 tracking-widest md:text-5xl md:leading-16.5;
+  }
+  .text-display-small-bold {
+    @apply font-bold text-2xl leading-8 tracking-widest md:text-[32px] md:leading-16.5;
+  }
+  
+
+
+
+
+    .text-large-normal {
+    @apply font-normal text-xl leading-8 tracking-normal md:text-2xl md:leading-9.5;
+  }
+  .text-medium-normal {
+        @apply font-normal text-base leading-7 tracking-normal md:text-lg md:leading-8.5;
+  }
+  .text-small-normal {
+    @apply font-normal text-sm leading-6 tracking-normal md:text-base md:leading-8;
+  }
+  .text-xsmall-normal {
+    @apply font-normal text-[13px] leading-5.5 tracking-normal md:text-sm md:leading-6;
+  }
+  .text-large-bold {
+    @apply font-bold text-xl leading-8 tracking-normal md:text-2xl md:leading-9.5;
+  }
+  .text-medium-bold {
+    @apply font-bold text-base leading-7 tracking-normal md:text-lg md:leading-8.5;
+  }
+  .text-small-bold {
+    @apply font-bold text-sm leading-6 tracking-normal md:text-base md:leading-8;
+  }
+  .text-xsmall-bold {
+    @apply font-bold text-[13px] leading-5.5 tracking-normal md:text-sm md:leading-6;
+  }
 }
