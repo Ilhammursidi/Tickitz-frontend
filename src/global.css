@@ -9,7 +9,7 @@ import "tailwindcss";
     --important-color: hsl(0, 93%, 42%);
     --active-color: hsl(164, 100%, 36%);
     --title-info: hsl(247, 15%, 35%);
-    --title-info2: hsl(0, 0%, 67%);
+    --title-info-gray: hsl(0, 0%, 67%);
     --bg-color: hsl(220, 18%, 97%);
 }
 
