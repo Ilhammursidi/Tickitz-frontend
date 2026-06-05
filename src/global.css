@@ -1,1 +1,17 @@
 @import "tailwindcss";
+@import "@fontsource/mulish";
+
+:root {
+    --font-main: mulish, sans-serif;
+    --primary-color: #1D4ED8;
+    --secondary-color: #A0A3BD;
+    --important-color: #D00707;
+    --active-color: #00BA88;
+    --title-info: #4E4B66;
+    --title-info2: #AAAAAA;
+    --bg-color: #F5F6F8;
+}
+
+body {
+    font-family: var(--font-main);
+}
