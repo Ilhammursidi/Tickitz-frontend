@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs (Vite default)
+dist/
+dist-ssr/
+
+# Public assets that shouldn't be formatted
+public/
+
+# Environment files
+.env
+.env.*
