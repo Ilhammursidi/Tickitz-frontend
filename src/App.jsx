@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import ActivatePage from "./pages/ActivatePage";
 import Done from "./pages/Done";
 import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             </Route>
           </Route>
         </Route>
+        <Route path="dashboard" element={<Dashboard />} />
         {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
       </Routes >
     </>
