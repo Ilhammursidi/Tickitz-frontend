@@ -1,9 +1,10 @@
-import React from "react";
+// import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login"
 import Register from "./pages/Register";
 import ActivatePage from "./pages/ActivatePage";
 import Done from "./pages/Done";
+import ProfilePage from "./pages/ProfilePage";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             </Route>
           </Route>
         </Route>
+        <Route path='profile' element={<ProfilePage />}/>
         {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
       </Routes >
     </>
