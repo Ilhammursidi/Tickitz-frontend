@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import joi from 'joi';
 import toast from "react-hot-toast";
 import { useForm } from 'react-hook-form'
@@ -102,7 +103,13 @@ function Login() {
                             )}
                         </div>
                         <div className='text-right text-sm text-primary cursor-pointer font-semibold hover:underline'>
-                            Forgot your password?
+                            <Link
+                                to="forgotpassword"
+                                title="Forgot Password"
+                            // className="hover:text-primary text-black hover:underline"
+                            >
+                                Forgot Password?
+                            </Link>
                         </div>
 
                         <Button type='submit' color='blue' size='full' shape='rectangle' className='hover:bg-blue-800'>
@@ -115,13 +122,23 @@ function Login() {
                             <span className="text-grey">Or</span>
                             <div className="h-px flex-1 bg-grey"></div>
                         </div>
-                        <div className='flex gap-5 justify-center items-center'>
-                            <Button color='white' size='medium' shape='rectangle' className='hover:bg-primary '>
+                        <div className='flex gap-5 justify-center items-center '>
+                            <Button color='white' size='medium' shape='rectangle' className='hover:bg-primary hover:text-white'>
                                 <a className='flex items-center justify-center gap-2 '><img src='/src/assets/icons/google-auth.svg' /><span className='hidden md:block text-darkgrey hover:text-white'>Google</span></a>
                             </Button>
                             <Button color='white' size='medium' shape='rectangle' className='hover:bg-primary '>
                                 <a className='flex items-center justify-center gap-2'><img src='/src/assets/icons/fb-auth.svg' /><span className='hidden md:block text-darkgrey hover:text-white'>Facebook</span></a>
                             </Button>
+                        </div>
+                        <div className='flex justify-center mt-4 text-center gap-2 text-sm text-darkgrey'>
+                            Don't have an account?
+                            <Link
+                                to="register"
+                                title="Sign Up"
+                                className="text-primary cursor-pointer font-semibold hover:underline"
+                            >
+                                Sign Up
+                            </Link>
                         </div>
                     </section>
                 </main>
