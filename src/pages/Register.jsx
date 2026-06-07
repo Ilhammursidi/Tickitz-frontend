@@ -130,12 +130,6 @@ function Register() {
                             Join For Free Now
                         </Button>
                     </form>
-                    <p className="text-center text-sm text-darkgrey my-5">
-                        <span>Already have an account?  </span>
-                        <Link to="/auth" className="text-primary hover:underline">
-                            Log in
-                        </Link>
-                    </p>
                     <section className='mt-5'>
                         <div className="flex items-center justify-center gap-20 mb-5">
                             <div className="h-px flex-1 bg-grey"></div>
@@ -151,6 +145,16 @@ function Register() {
                             </Button>
                         </div>
                     </section>
+                    <div className='flex justify-center mt-4 text-center gap-2 text-sm text-darkgrey'>
+                        Already have an account?
+                        <Link
+                            to="/auth"
+                            title="Sign in "
+                            className="text-primary cursor-pointer font-semibold hover:underline"
+                        >
+                            Login
+                        </Link>
+                    </div>
                 </main>
             </div>
 
