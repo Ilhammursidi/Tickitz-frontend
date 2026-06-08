@@ -5,8 +5,7 @@ import { Button } from '../components/atoms/Button';
 import Stepper from '../components/molecules/Stepper';
 import OtpInput from '../components/molecules/OTP';
 
-
-function ActivatePage() {
+function CheckOTP() {
     const navigate = useNavigate();
 
     const [otp, setOtp] = useState(new Array(6).fill(''));
@@ -48,27 +47,13 @@ function ActivatePage() {
             inputRefs.current[focusIndex].focus();
         }
     };
-
     const onSubmit = (e) => {
         e.preventDefault();
         const otpCode = otp.join("");
-
-        if (otpCode.length < 6) {
-            toast.error("Kode OTP harus 6 digit!");
-            return;
-        }
-
-        console.log("Kode OTP untuk verifikasi:", otpCode);
-
-        toast.success('Aktivasi berhasil!', {
-            style: { border: '1px solid #00D452', padding: '16px', color: '#00D452' },
-            iconTheme: { primary: '#00D452', secondary: '#FFFAEE' },
-        });
-        setTimeout(() => {
-            navigate('done');
-        }, 2000);
+        if (otpCode.length < 6) return toast.error("Kode OTP harus 6 digit!");
+        toast.success('Kode diverifikasi!');
+        setTimeout(() => navigate('reset'), 2000);
     };
-
     const backgrounds = [
         '/src/assets/images/bg-auth.svg',
         '/src/assets/images/bg-auth-2.jpg',
@@ -99,12 +84,12 @@ function ActivatePage() {
                 <main className='bg-white z-10 p-8 rounded-lg shadow-lg w-full md:min-3/6 max-w-lg'>
 
                     <section className='hidden sm:block mb-6'>
-                        <Stepper steps={["Fill Form", "Activate", "Done"]} activeStep={1} />
+                        <Stepper steps={["Email", "OTP", "Reset"]} activeStep={1} />
                     </section>
 
                     <div className="text-center mb-8">
                         <h1 className="text-2xl font-bold text-darkgrey mb-2">
-                            Activate Account
+                            Verify Token OTP
                         </h1>
                         <p className='text-sm text-grey'>
                             We have sent a 6-digit verification code to your email.
@@ -121,7 +106,7 @@ function ActivatePage() {
                         />
 
                         <Button type='submit' color='blue' size='full' shape='rectangle' className='mt-8 hover:bg-blue-800'>
-                            Activate Now
+                            Verification
                         </Button>
                     </form>
                 </main>
@@ -131,4 +116,4 @@ function ActivatePage() {
     )
 }
 
-export default ActivatePage;
+export default CheckOTP

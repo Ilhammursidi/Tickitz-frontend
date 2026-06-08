@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import joi from 'joi';
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -106,14 +106,6 @@ function Register() {
                                 </p>
                             )}
                         </div>
-                        {/* <InputField
-                            type='checkbox'
-                            label='I agree to terms & conditions'
-                            id='terms'
-                            className="mt-1 w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary"
-                            {...register('terms')}
-
-                        /> */}
                         <div className="flex items-start gap-3 mt-4">
                             <input
                                 type="checkbox"
