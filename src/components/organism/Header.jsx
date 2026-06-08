@@ -50,14 +50,14 @@ function Header() {
             <div className="hidden md:flex items-center gap-1 text-medium-normal text-gray-700">
               Location
             </div>
-            <img 
-              src="/src/assets/icons/icon_dropdown.svg" 
-              alt="icon dropdown" 
+            <img
+              src="/src/assets/icons/icon_dropdown.svg"
+              alt="icon dropdown"
               onClick={toggleDropdown}
-              className="hidden md:block cursor-pointer hover:opacity-50 transition-opacity" 
+              className="hidden md:block cursor-pointer hover:opacity-50 transition-opacity"
             />
             <img src="/src/assets/icons/search.svg" alt="icon search" className="hidden md:block cursor-pointer" />
-            
+
             <img
               src="https://i.pravatar.cc/150?img=12"
               alt="profile"
@@ -82,8 +82,8 @@ function Header() {
           </div>
         )}
 
-        <button 
-          onClick={toggleMenu} 
+        <button
+          onClick={toggleMenu}
           className="flex flex-col justify-center items-center md:hidden w-8 h-8 space-y-1.5 focus:outline-none cursor-pointer"
           aria-label="Toggle Menu"
         >
@@ -106,9 +106,9 @@ function Header() {
               <a href="#" onClick={() => setIsMenuOpen(false)} className="text-gray-600 text-lg">Buy Ticket</a>
             </>
           )}
-          
+
           <hr className="border-gray-100 my-2" />
-          
+
           {!isLogin && (
             <div className="flex flex-col gap-3 pt-2">
               <Button shape="rectangle" color="white" size="small" className="w-full">Sign In</Button>
