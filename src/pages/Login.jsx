@@ -14,7 +14,7 @@ const schema = joi.object({
     .required()
     .messages({
       'string.empty': 'Email and Password are required!',
-      'string.email': 'Format email tidak valid!,
+      'string.email': 'Format email tidak valid!',
       'any.required': 'Email and Password are required!',
     }),
   password: joi.string().min(8).required().messages({
