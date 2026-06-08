@@ -1,11 +1,9 @@
-// import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login"
 import Register from "./pages/Register";
 import ActivatePage from "./pages/ActivatePage";
 import Done from "./pages/Done";
 import ProfilePage from "./pages/ProfilePage";
-// import ForgotPassword from "./pages/ForgotPassword";
 import CheckEmail from "./pages/CheckEmail";
 import CheckOTP from "./pages/CheckOTP";
 import Reset from "./pages/ForgotPassword";
@@ -32,11 +30,8 @@ function App() {
               <Route index element={<CheckOTP />} />
               <Route path="reset" element={<Reset />} />
             </Route>
-
-            {/* <Route path="reset" element={<ResetPassword />} /> */}
           </Route>
         </Route>
-        {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
         <Route path="dashboard" element={<Dashboard />} />
         <Route path='profile' element={<ProfilePage />} />
       </Routes >
