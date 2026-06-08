@@ -9,6 +9,8 @@ import CheckOTP from "./pages/CheckOTP";
 import Reset from "./pages/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import AddMovie from "./pages/AddMovie";
+import ListMovie from "./pages/ListMovie";
 
 function App() {
   return (
@@ -32,7 +34,12 @@ function App() {
             </Route>
           </Route>
         </Route>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="admin">
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="add-movie" element={<AddMovie />} />
+          <Route path="list-movie" element={<ListMovie />} />
+          <Route path="edit-movie/:id" element={<AddMovie />} />
+        </Route>
         <Route path='profile' element={<ProfilePage />} />
       </Routes >
     </>
