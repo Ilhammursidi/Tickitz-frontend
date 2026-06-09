@@ -4,10 +4,14 @@ import toast from "react-hot-toast";
 import { Button } from '../components/atoms/Button';
 import Stepper from '../components/molecules/Stepper';
 import OtpInput from '../components/molecules/OTP';
+import { activateSlice } from '../redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function ActivatePage() {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const { registeredEmail, isLoading } = useSelector((state) => state.auth);
 
     const [otp, setOtp] = useState(new Array(6).fill(''));
     const inputRefs = useRef([]);
@@ -57,16 +61,30 @@ function ActivatePage() {
             toast.error("Kode OTP harus 6 digit!");
             return;
         }
-
-        console.log("Kode OTP untuk verifikasi:", otpCode);
-
-        toast.success('Aktivasi berhasil!', {
-            style: { border: '1px solid #00D452', padding: '16px', color: '#00D452' },
-            iconTheme: { primary: '#00D452', secondary: '#FFFAEE' },
-        });
-        setTimeout(() => {
-            navigate('done');
-        }, 2000);
+        const payload = {
+            email: registeredEmail,
+            otp: otpCode
+        };
+        // console.log("Kode OTP untuk verifikasi:", otpCode);
+        dispatch(activateSlice(payload))
+            .unwrap()
+            .then(() => {
+                toast.success('Activation success', {
+                    style: {
+                        border: '1px solid #00D452',
+                        padding: '16px',
+                        color: '#00D452',
+                    },
+                    iconTheme: {
+                        primary: '#00D452',
+                        secondary: '#FFFAEE',
+                    },
+                });
+                navigate('/auth/register/activate/done', { replace: true })
+            })
+            .catch((err) => {
+                toast.error(err || "Activation failed, Try again!");
+            })
     };
 
     const backgrounds = [
@@ -120,8 +138,8 @@ function ActivatePage() {
                             handlePaste={handlePaste}
                         />
 
-                        <Button type='submit' color='blue' size='full' shape='rectangle' className='mt-8 hover:bg-blue-800'>
-                            Activate Now
+                        <Button type='submit' color='blue' size='full' shape='rectangle' className={`mt-8 hover:bg-blue-800 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
+                            {isLoading ? 'Activation...' : 'Activate Now'}
                         </Button>
                     </form>
                 </main>
