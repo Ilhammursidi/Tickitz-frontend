@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import joi from 'joi';
-import toast from "react-hot-toast";
-import { useForm } from 'react-hook-form'
-import { joiResolver } from '@hookform/resolvers/joi'
+import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
 import InputField from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,39 +70,44 @@ function Login() {
     }, [backgrounds.length]);
     return (
         <>
-            <div className='min-h-screen relative flex flex-col items-center justify-center px-2 py-8 font-main'>
+            <div className="font-main relative flex min-h-screen flex-col items-center justify-center px-2 py-8">
                 {backgrounds.map((bg, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 z-0 bg-black/40 bg-blend-overlay bg-no-repeat bg-cover bg-center transition-opacity duration-1000 ease-in-out ${index === currentBg ? 'opacity-100' : 'opacity-0'
+                        className={`absolute inset-0 z-0 bg-black/40 bg-cover bg-center bg-no-repeat bg-blend-overlay transition-opacity duration-1000 ease-in-out ${index === currentBg ? 'opacity-100' : 'opacity-0'
                             }`}
                         style={{ backgroundImage: `url('${bg}')` }}
                     />
                 ))}
-                <section className="mb-8 flex justify-center"><img src='/src/assets/images/tickitz-white.svg' className="z-10 w-40 md:w-50 lg:w-60" /></section>
-                <main className='bg-white w-full z-10 p-8 rounded-lg shadow-lg md:min-3/6 max-w-lg'>
+                <section className="mb-8 flex justify-center">
+                    <img
+                        src="/src/assets/images/tickitz-white.svg"
+                        className="z-10 w-40 md:w-50 lg:w-60"
+                    />
+                </section>
+                <main className="md:min-3/6 z-10 w-full max-w-lg rounded-lg bg-white p-8 shadow-lg">
                     <section>
-                        <h1 className="text-2xl font-bold text-darkgrey mb-2">
+                        <h1 className="text-darkgrey mb-2 text-2xl font-bold">
                             Welcome Back 👋
                         </h1>
-                        <p className='text-sm text-grey mb-6'>
+                        <p className="text-grey mb-6 text-sm">
                             Sign in with your data that you entered during your registration
                         </p>
                     </section>
-                    <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
+                    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                         <InputField
-                            label='Email'
-                            type='email'
-                            id='email'
-                            placeholder='Write your email'
+                            label="Email"
+                            type="email"
+                            id="email"
+                            placeholder="Write your email"
                             {...register('email')}
                         />
 
                         <InputField
-                            label='Password'
-                            type='password'
-                            id='password'
-                            placeholder='Write your password'
+                            label="Password"
+                            type="password"
+                            id="password"
+                            placeholder="Write your password"
                             {...register('password')}
                         />
                         <div className="h-2 w-full text-right">
@@ -112,7 +117,7 @@ function Login() {
                                 </p>
                             )}
                         </div>
-                        <div className='text-right text-sm text-primary cursor-pointer font-semibold hover:underline'>
+                        <div className="text-primary cursor-pointer text-right text-sm font-semibold hover:underline">
                             <Link
                                 to="forgotpassword"
                                 title="Forgot Password"
@@ -158,4 +163,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Login;
