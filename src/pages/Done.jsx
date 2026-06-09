@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-// import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 import { Player } from '@lottiefiles/react-lottie-player';
 // import { Button } from '../components/atoms/Button';
 import Stepper from '../components/molecules/Stepper';
 import successAnimations from '../assets/animations/success-done.json'
+import { useDispatch } from 'react-redux';
+import { clearAuthForce } from '../redux/slices/authSlice';
 
 
 function DonePage() {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    // dispatch(clearAuthForce())
+
     useEffect(() => {
         const timer = setTimeout(() => {
+            dispatch(clearAuthForce())
             navigate('/auth', { replace: true });
         }, 4000);
 
         return () => clearTimeout(timer);
-    }, [navigate]);
+    }, [navigate, dispatch]);
 
     const backgrounds = [
         '/src/assets/images/bg-auth.svg',
@@ -52,7 +57,7 @@ function DonePage() {
 
                     <div className="flex flex-col items-center justify-center text-center">
                         <h1 className="text-4xl font-bold text-darkgrey mb-3">
-                            Thank You 🎉🥳
+                            Yeay! Account Activated 🎉🥳
                         </h1>
                         <div className="w-40 h-40 mb-4 sm:w-48 sm:h-48">
                             <Player
