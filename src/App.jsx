@@ -9,6 +9,8 @@ import CheckOTP from "./pages/CheckOTP";
 import Reset from "./pages/ForgotPassword";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import { RequireRegistration } from "./components/ProtectedRoute";
+import { RequireActivationSuccess } from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -19,9 +21,13 @@ function App() {
           <Route index element={<Login />} />
           <Route path="register">
             <Route index element={<Register />} />
-            <Route path="activate">
-              <Route index element={<ActivatePage />} />
-              <Route path="done" element={<Done />} />
+            <Route element={<RequireRegistration />}>
+              <Route path="activate">
+                <Route index element={<ActivatePage />} />
+                <Route element={<RequireActivationSuccess />}>
+                  <Route path="done" element={<Done />} />
+                </Route>
+              </Route>
             </Route>
           </Route>
           <Route path="forgotpassword">
