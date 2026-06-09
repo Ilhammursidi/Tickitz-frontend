@@ -14,9 +14,9 @@ import authReducer from "./slices/authSlice.js"
 // import env from "../utils/environment";
 
 const persistConfig = {
-  key: "tickitz",
+  key: "auth",
   storage,
-  whitelist: ["auth"],
+  blacklist: ['registeredEmail', 'isActivationSuccess', 'isLoading', 'error'],
 };
 const rootReducer = combineReducers({
   auth: authReducer,
