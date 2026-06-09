@@ -1,47 +1,57 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import joi from 'joi';
 import toast from "react-hot-toast";
 import { useForm } from 'react-hook-form'
 import { joiResolver } from '@hookform/resolvers/joi'
 import InputField from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSlice } from '../redux/slices/authSlice';
 
 const schema = joi.object({
     email: joi.string()
-        .email({ tlds: { allow: false } })
-        .required()
-        .messages({
-            "string.empty": "Email dan Password wajib diisi!",
-            "string.email": "Format email tidak valid!",
-            "any.required": "Email dan Password wajib diisi!",
+        .email({ tlds: { allow: false } }).required().messages({
+            "string.empty": "Email is required!",
+            "string.email": "Invalid email format!",
+            "any.required": "Email is required!",
         }),
     password: joi.string().min(8).required().messages({
-        "string.empty": "Email dan Password wajib diisi!",
-        "string.min": "Password minimal harus 8 karakter!",
-        "any.required": "Email dan Password wajib diisi!",
+        "string.empty": "Password is required!",
+        "string.min": "Password must be at least 8 characters!",
+        "any.required": "Password is required!",
     }),
 });
 
 function Login() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { isLoading } = useSelector((state) => state.auth)
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: joiResolver(schema)
     });
 
     const onSubmit = (data) => {
-        console.log("Data Login:", data);
-        // toast.success("Login berhasil!");
-        toast.success('Login berhasil', {
-            style: {
-                border: '1px solid #00D452',
-                padding: '16px',
-                color: '#00D452',
-            },
-            iconTheme: {
-                primary: '#00D452',
-                secondary: '#FFFAEE',
-            },
-        });
+        dispatch(loginSlice(data))
+            .unwrap()
+            .then(() => {
+                // console.log("Data Login:", data);
+                toast.success('Login success', {
+                    style: {
+                        border: '1px solid #00D452',
+                        padding: '16px',
+                        color: '#00D452',
+                    },
+                    iconTheme: {
+                        primary: '#00D452',
+                        secondary: '#FFFAEE',
+                    },
+                });
+                navigate('/', { replace: true })
+            })
+            .catch((err) => {
+                toast.error(err || "Login Failed, Try again!");
+            })
     };
     const backgrounds = [
         '/src/assets/images/bg-auth.svg',
@@ -112,8 +122,8 @@ function Login() {
                             </Link>
                         </div>
 
-                        <Button type='submit' color='blue' size='full' shape='rectangle' className='hover:bg-blue-800'>
-                            Login
+                        <Button type='submit' color='blue' size='full' shape='rectangle' className={`hover:bg-blue-800 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
+                            {isLoading ? 'Processing...' : 'Login'}
                         </Button>
                     </form>
                     <section className='mt-5'>
