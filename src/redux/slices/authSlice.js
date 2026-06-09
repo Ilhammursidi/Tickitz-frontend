@@ -29,7 +29,7 @@ export const loginSlice = createAsyncThunk(
       //   error.response?.data?.message ||
       //   error.response?.data?.Error ||
       //   error.message;
-      return rejectWithValue(error.response?.data?.message || "Login failed")
+      return rejectWithValue(error.response?.data?.message || "Login failed, Try again!")
     }
   }
 )
