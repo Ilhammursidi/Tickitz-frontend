@@ -6,7 +6,7 @@ export const registerAPI = async (payload) => {
 };
 
 export const loginAPI = async (payload) => {
-    const response = await api.post("/auth", payload);
+    const response = await api.post("/auth/", payload);
     return response.data;
 }
 export const activateAPI = async (payload) => {
