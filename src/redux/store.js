@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
-  persistCombineReducers,
+  persistReducer,
   FLUSH,
   PAUSE,
   PERSIST,
@@ -10,22 +10,23 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/es/storage";
-import env from "../utils/environment";
+import authReducer from "./slices/authSlice.js"
+// import env from "../utils/environment";
 
 const persistConfig = {
-  key: "ew-DB",
+  key: "tickitz",
   storage,
-  whitelist: [],
-  blacklist: [],
+  whitelist: ["auth"],
 };
-
-const persistedReducer = persistCombineReducers(persistConfig, {
-
+const rootReducer = combineReducers({
+  auth: authReducer,
 });
 
-const store = configureStore({
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
   reducer: persistedReducer,
-  devTools: env.environment === "development",
+  // devTools: env.environment === "development",
   middleware: (defaultMiddleware) => {
     return defaultMiddleware({
       serializableCheck: {
@@ -36,4 +37,4 @@ const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-export default store;
+// export default store;
