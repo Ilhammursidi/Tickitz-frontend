@@ -1,56 +1,69 @@
 import { useEffect, useState } from 'react';
 import joi from 'joi';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { useForm } from 'react-hook-form'
 import { joiResolver } from '@hookform/resolvers/joi'
 import InputField from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import Stepper from '../components/molecules/Stepper';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerSlice } from '../redux/slices/authSlice';
 
 const schema = joi.object({
     email: joi.string()
-        .email({ tlds: { allow: false } })
-        .required()
-        .messages({
-            "string.empty": "Email dan Password wajib diisi!",
-            "string.email": "Format email tidak valid!",
-            "any.required": "Email dan Password wajib diisi!",
+        .email({ tlds: { allow: false } }).required().messages({
+            "string.empty": "Email is required!",
+            "string.email": "Invalid email format!",
+            "any.required": "Email is required!",
         }),
     password: joi.string().min(8).required().messages({
-        "string.empty": "Email dan Password wajib diisi!",
-        "string.min": "Password minimal harus 8 karakter!",
-        "any.required": "Email dan Password wajib diisi!",
+        "string.empty": "Password is required!",
+        "string.min": "Password must be at least 8 characters!",
+        "any.required": "Password is required!",
     }),
     terms: joi.boolean().valid(true).required().messages({
-        "any.only": "Anda harus menyetujui syarat & ketentuan!",
-        "any.required": "Anda harus menyetujui syarat & ketentuan!",
+        "any.only": "You must agree to the terms and conditions!",
+        "any.required": "You must agree to the terms and conditions!",
     })
 });
 
 function Register() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { isLoading } = useSelector((state) => state.auth);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: joiResolver(schema)
     });
 
     const onSubmit = (data) => {
-        console.log("Data Login:", data);
-        // toast.success("Login berhasil!");
-        toast.success('Register berhasil', {
-            style: {
-                border: '1px solid #00D452',
-                padding: '16px',
-                color: '#00D452',
-            },
-            iconTheme: {
-                primary: '#00D452',
-                secondary: '#FFFAEE',
-            },
-        });
-        setTimeout(() => {
-            navigate('activate');
-        }, 2000);
+        // console.log("Data Login:", data);
+        // toast.success("Register berhasil!");
+        const payload = {
+            email: data.email,
+            password: data.password,
+            agree_terms: data.terms
+        };
+        dispatch(registerSlice(payload))
+            .unwrap()
+            .then(() => {
+                console.log("Data Login:", payload);
+                toast.success('Register success', {
+                    style: {
+                        border: '1px solid #00D452',
+                        padding: '16px',
+                        color: '#00D452',
+                    },
+                    iconTheme: {
+                        primary: '#00D452',
+                        secondary: '#FFFAEE',
+                    },
+                });
+                navigate('/auth/register/activate', { replace: true })
+            })
+            .catch((err) => {
+                toast.error(err || "Register failed, Try again!");
+            })
     };
     const backgrounds = [
         '/src/assets/images/bg-auth.svg',
@@ -118,8 +131,8 @@ function Register() {
                             </label>
                         </div>
 
-                        <Button type='submit' color='blue' size='full' shape='rectangle' className='hover:bg-blue-800'>
-                            Join For Free Now
+                        <Button type='submit' color='blue' size='full' shape='rectangle' className={`hover:bg-blue-800 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
+                            {isLoading ? 'Processing...' : 'Join For Free Now'}
                         </Button>
                     </form>
                     <section className='mt-5'>
