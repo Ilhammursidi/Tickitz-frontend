@@ -12,8 +12,6 @@ function AddMovie() {
 
   const fileInputRef = useRef(null);
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
   let initialMovieName = '';
   let initialCategory = '';
   let initialReleaseDate = '';
@@ -53,50 +51,78 @@ function AddMovie() {
     cast: initialCast,
     synopsis: initialSynopsis,
     addLocation: initialAddLocation,
+    movieImage: isEditMode ? 'existing_image_url' : null, 
+    cinemaDates: [],
+    cinemaTimes: [],
   });
 
+  const [currentTimeInput, setCurrentTimeInput] = useState('');
   const [errors, setErrors] = useState({});
 
   const schema = Joi.object({
     movieName: Joi.string().trim().required().messages({
-      'string.empty': 'Nama film tidak boleh kosong',
-      'any.required': 'Nama film wajib diisi',
+      'string.empty': 'Movie name cannot be empty',
+      'any.required': 'Please input the movie name',
     }),
     category: Joi.string().trim().required().messages({
-      'string.empty': 'Kategori tidak boleh kosong',
+      'string.empty': 'category cannot be empty',
     }),
     releaseDate: Joi.string().required().messages({
-      'string.empty': 'Tanggal rilis wajib dipilih',
+      'string.empty': 'release date cannot be empty',
     }),
-    durationHour: Joi.number().min(1).required().messages({
-      'number.base': 'Durasi jam harus berupa angka',
-      'any.required': 'Durasi jam wajib diisi',
+    durationHour: Joi.number().min(0).required().messages({
+      'number.base': 'Duration hour must be number',
+      'number.min': 'Duration hour cannot less than 0',
+      'any.required': 'Please input duration hour',
     }),
     durationMinute: Joi.number().min(0).max(59).required().messages({
-      'number.base': 'Durasi menit harus berupa angka',
-      'any.required': 'Durasi menit wajib diisi',
+      'number.base': 'Duration minute must be number',
+      'number.min': 'Duration minute cannot less than 0',
+      'number.max': 'The duration of minutes must not exceed 59 minutes',
+      'any.required': 'Please input duration minute',
     }),
     directorName: Joi.string().trim().required().messages({
-      'string.empty': 'Nama sutradara tidak boleh kosong',
+      'string.empty': 'Director name cannot be empty',
     }),
     cast: Joi.string().trim().required().messages({
-      'string.empty': 'Daftar pemeran tidak boleh kosong',
+      'string.empty': 'Cast cannot be empty',
     }),
     synopsis: Joi.string().trim().required().messages({
-      'string.empty': 'Sinopsis tidak boleh kosong',
+      'string.empty': 'Synopsis cannot be empty',
     }),
     addLocation: Joi.string().trim().required().messages({
-      'string.empty': 'Lokasi penayangan wajib diisi',
+      'string.empty': 'Please enter viewing location',
+    }),
+    movieImage: Joi.any().required().messages({
+      'any.required': 'Please select the movie poster image first!',
+    }),
+    cinemaDates: Joi.array().min(1).required().messages({
+      'array.min': 'Please select at least one cinema release date!',
+    }),
+    cinemaTimes: Joi.array().min(1).required().messages({
+      'array.min': 'Please select at least one cinema times!',
     }),
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: null }));
+
+    if (name === 'durationHour') {
+      const num = Number(value);
+      if (value !== '' && num < 0) return;
     }
+
+    if (name === 'durationMinute') {
+      const num = Number(value);
+      if (value !== '' && (num < 0 || num > 59)) return;
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+  };
+
+  const handleKeyDownNumber = (e) => {
+    if (['-', '+', 'e', 'E'].includes(e.key)) e.preventDefault();
   };
 
   const handleUploadClick = () => {
@@ -106,8 +132,38 @@ function AddMovie() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedImage(file);
+      setFormData((prev) => ({ ...prev, movieImage: file }));
+      if (errors.movieImage) setErrors((prev) => ({ ...prev, movieImage: null }));
     }
+  };
+
+  const handleAddDate = (e) => {
+    const newDate = e.target.value;
+    if (newDate && !formData.cinemaDates.includes(newDate)) {
+      const updatedDates = [...formData.cinemaDates, newDate].sort();
+      setFormData((prev) => ({ ...prev, cinemaDates: updatedDates }));
+      if (errors.cinemaDates) setErrors((prev) => ({ ...prev, cinemaDates: null }));
+    }
+    e.target.value = '';
+  };
+
+  const handleRemoveDate = (indexToRemove) => {
+    const updatedDates = formData.cinemaDates.filter((_, index) => index !== indexToRemove);
+    setFormData((prev) => ({ ...prev, cinemaDates: updatedDates }));
+  };
+
+  const handleAddTime = () => {
+    if (currentTimeInput && !formData.cinemaTimes.includes(currentTimeInput)) {
+      const updatedTimes = [...formData.cinemaTimes, currentTimeInput].sort();
+      setFormData((prev) => ({ ...prev, cinemaTimes: updatedTimes }));
+      setCurrentTimeInput('');
+      if (errors.cinemaTimes) setErrors((prev) => ({ ...prev, cinemaTimes: null }));
+    }
+  };
+
+  const handleRemoveTime = (indexToRemove) => {
+    const updatedTimes = formData.cinemaTimes.filter((_, index) => index !== indexToRemove);
+    setFormData((prev) => ({ ...prev, cinemaTimes: updatedTimes }));
   };
 
   const handleSubmit = (e) => {
@@ -124,17 +180,13 @@ function AddMovie() {
       return;
     }
 
-    if (!selectedImage && !isEditMode) {
-      alert('Silakan pilih gambar poster film terlebih dahulu!');
-      return;
-    }
-
     if (isEditMode) {
       alert(`[MOCK ACTION] Film ID ${id} Berhasil Diperbarui!`);
     } else {
       alert('[MOCK ACTION] Film Baru Berhasil Ditambahkan!');
     }
-    console.log("Data Valid yang Siap Dikirim:", formData, "File Poster:", selectedImage);
+    
+    console.log("Data Valid:", formData);
   };
 
   return (
@@ -162,14 +214,15 @@ function AddMovie() {
                 <button 
                   type="button" 
                   onClick={handleUploadClick}
-                  className="rounded-lg bg-[#1D4ED8] px-6 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm"
+                  className={`rounded-lg px-6 py-2.5 text-xs font-semibold text-white transition-colors shadow-sm ${errors.movieImage ? 'bg-red-500 hover:bg-red-600' : 'bg-[#1D4ED8] hover:bg-blue-700'}`}
                 >
-                  {selectedImage ? 'Ubah Gambar' : 'Pilih Gambar'}
+                  {formData.movieImage && formData.movieImage !== 'existing_image_url' ? 'Change Image' : 'Upload'}
                 </button>
                 <span className="text-xs text-gray-500 truncate max-w-xs">
-                  {selectedImage ? selectedImage.name : 'Belum ada berkas yang dipilih'}
+                  {formData.movieImage && formData.movieImage !== 'existing_image_url' ? formData.movieImage.name : 'No files selected yet'}
                 </span>
               </div>
+              {errors.movieImage && <p className="text-xs text-red-500 font-medium">{errors.movieImage}</p>}
             </div>
 
             <div className="space-y-2">
@@ -184,6 +237,7 @@ function AddMovie() {
               {errors.movieName && <p className="text-xs text-red-500 font-medium">{errors.movieName}</p>}
             </div>
 
+            {/* CATEGORY */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-500 block">Category</label>
               <input 
@@ -217,6 +271,8 @@ function AddMovie() {
                       type="number"
                       name="durationHour"
                       placeholder="Hour"
+                      min="0"
+                      onKeyDown={handleKeyDownNumber}
                       value={formData.durationHour}
                       onChange={handleChange}
                       className={`w-full h-12.5 md:h-16 px-4 rounded-sm bg-[#FCFDFE] text-sm text-center text-gray-700 outline-none border ${errors.durationHour ? 'border-red-500' : 'border-[#DEDEDE] focus:border-purple-400'} transition-all`}
@@ -228,6 +284,9 @@ function AddMovie() {
                       type="number"
                       name="durationMinute"
                       placeholder="Minute"
+                      min="0"
+                      max="59"
+                      onKeyDown={handleKeyDownNumber}
                       value={formData.durationMinute}
                       onChange={handleChange}
                       className={`w-full h-12.5 md:h-16 px-4 rounded-sm bg-[#FCFDFE] text-sm text-center text-gray-700 outline-none border ${errors.durationMinute ? 'border-red-500' : 'border-[#DEDEDE] focus:border-purple-400'} transition-all`}
@@ -287,31 +346,65 @@ function AddMovie() {
             </div>
 
             <div className="space-y-4 pt-2">
-              <label className="text-sm font-medium text-gray-500 block">Set Date & Time</label>
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="relative w-full sm:w-44">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </span>
-                  <select className="w-full h-11 appearance-none rounded-xl bg-[#EFF0F6] pl-10 pr-8 text-xs font-semibold text-gray-500 outline-none">
-                    <option>Set a date</option>
-                  </select>
-                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
+              <label className="text-sm font-medium text-gray-500 block">Set Date & Time</label>      
+              
+              <div className="space-y-2">
+                <div className="relative w-full sm:w-56">
+                  <input 
+                    type="date"
+                    onChange={handleAddDate} 
+                    className={`p-3 border-2 bg-[#EFF0F6] w-full md:w-50.75 rounded-lg outline-none cursor-pointer 
+                                [&::-webkit-calendar-picker-indicator]:scale-150 
+                                [&::-webkit-calendar-picker-indicator]:cursor-pointer ${errors.cinemaDates ? 'border-red-500' : 'border-gray-300'}`}
+                  />
+                  <div className='bg-[#EFF0F6] w-30 h-10 absolute bottom-1 content-center left-1 text-center pointer-events-none text-gray-500 font-semibold text-medium-normal'>Set a date</div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2 text-xs font-semibold text-gray-500 pt-1">
+                  {formData.cinemaDates.map((date, idx) => (
+                    <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-50 text-[#5F2EEA] text-xs font-semibold rounded-full border border-purple-200">
+                      {date}
+                      <button type="button" onClick={() => handleRemoveDate(idx)} className="text-red-400 hover:text-red-600 font-bold ml-1">×</button>
+                    </span>
+                  ))}
+                  {formData.cinemaDates.length === 0 && (
+                    <p className={`text-xs italic ${errors.cinemaDates ? 'text-red-500 font-medium' : 'text-gray-400'}`}>
+                      {errors.cinemaDates ? errors.cinemaDates : 'No release date selected yet'}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 text-xs font-semibold text-gray-500">
-                <button type="button" className="w-15.5 h-7.5 flex items-center justify-center rounded-sm border-2 border-[#5F2EEA] font-light hover:bg-purple-50 transition-colors">
-                  <img src="/src/assets/icons/plus_blue.svg" alt="icon plus" />
-                </button>
-                <span className="tracking-wide">08:30am</span>
-                <span className="tracking-wide">10:30pm</span>
+              <div className="space-y-2 pt-2">
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="time"
+                    value={currentTimeInput}
+                    onChange={(e) => setCurrentTimeInput(e.target.value)}
+                    className={`h-9 px-3 rounded-lg bg-[#EFF0F6] text-xs font-semibold text-gray-600 outline-none border ${errors.cinemaTimes ? 'border-red-500' : 'border-transparent focus:border-purple-400'}`}
+                  />
+                  <button 
+                    type="button" 
+                    onClick={handleAddTime}
+                    className="w-15.5 h-7.5 flex items-center justify-center rounded-lg border-2 border-[#5F2EEA] bg-white hover:bg-purple-50 transition-colors active:scale-95"
+                  >
+                    <span className="text-[#5F2EEA] font-bold text-lg leading-none">+</span>
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-500 pt-1">
+                  {formData.cinemaTimes.map((time, idx) => (
+                    <span key={idx} className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-md border border-gray-200 tracking-wide">
+                      {time}
+                      <button type="button" onClick={() => handleRemoveTime(idx)} className="text-gray-400 hover:text-red-500 font-bold ml-2">×</button>
+                    </span>
+                  ))}
+                  {formData.cinemaTimes.length === 0 && (
+                    <p className={`text-xs italic ${errors.cinemaTimes ? 'text-red-500 font-medium' : 'text-gray-400'}`}>
+                      {errors.cinemaTimes ? errors.cinemaTimes : 'No broadcast hours have been added yet'}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
