@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/es/storage";
 import authReducer from "./slices/authSlice.js"
+import movieReducer from "./slices/movieSlice.js"
 // import env from "../utils/environment";
 
 const persistConfig = {
@@ -20,6 +21,7 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   auth: authReducer,
+  movies: movieReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
