@@ -66,21 +66,21 @@
                             <p className="text-md text-gray-400">Sign up and get the ticket with a lot of discount</p>
                         </section>
                         <section>
-                            <div class="m-auto mt-5 grid size-75 md:size-100 lg:size-110 grid-cols-2 grid-rows-3 gap-4">
-                                <div class="row-span-2 col-start-1 row-start-1">
-                                    <img src="/src/assets/images/nobody-loves-kay.webp" alt="" class="w-full h-full object-cover rounded-t-lg" />
+                            <div className="m-auto mt-5 grid size-75 md:size-100 lg:size-110 grid-cols-2 grid-rows-3 gap-4">
+                                <div className="row-span-2 col-start-1 row-start-1">
+                                    <img src="/src/assets/images/nobody-loves-kay.webp" alt="" className="w-full h-full object-cover rounded-t-lg" />
                                 </div>
 
-                                <div class="col-start-1 row-start-3">
-                                    <img src="/src/assets/images/monster-pabrik-rambut.webp" alt="" class="w-full h-full object-cover rounded-b-lg" />
+                                <div className="col-start-1 row-start-3">
+                                    <img src="/src/assets/images/monster-pabrik-rambut.webp" alt="" className="w-full h-full object-cover rounded-b-lg" />
                                 </div>
 
-                                <div class="col-start-2 row-start-1">
-                                    <img src="/src/assets/images/colony.webp" alt="" class="w-full h-full object-cover rounded-t-lg" />
+                                <div className="col-start-2 row-start-1">
+                                    <img src="/src/assets/images/colony.webp" alt="" className="w-full h-full object-cover rounded-t-lg" />
                                 </div>
 
-                                <div class="row-span-2 col-start-2 row-start-2">
-                                    <img src="/src/assets/images/warkop-dki.webp" alt="" class="w-full h-full object-cover rounded-b-lg" />
+                                <div className="row-span-2 col-start-2 row-start-2">
+                                    <img src="/src/assets/images/warkop-dki.webp" alt="" className="w-full h-full object-cover rounded-b-lg" />
                                 </div>
                             </div>
 
@@ -206,19 +206,19 @@
 
 
 
-                    <section class="bg-blue-600 w-full my-5 h-120 md:h-80 rounded-3xl p-8 text-white text-center shadow-lg relative overflow-hidden">
+                    <section className="bg-blue-600 w-full my-5 h-120 md:h-80 rounded-3xl p-8 text-white text-center shadow-lg relative overflow-hidden">
 
-                        <h2 class="text-2xl md:text-5xl mb-4 mt-10">Subscribe to our newsletter</h2>
+                        <h2 className="text-2xl md:text-5xl mb-4 mt-10">Subscribe to our newsletter</h2>
 
-                        <div class="flex flex-col md:flex-row md:justify-center gap-3">
+                        <div className="flex flex-col md:flex-row md:justify-center gap-3">
                             <InputField className="md:w-60" placeholder="first name"></InputField>
                             <InputField className="md:w-60" placeholder="email address"></InputField>
-                            <button class="bg-white text-blue-600 font-bold md:w-60 py-3 rounded-lg mt-2">
+                            <button className="bg-white text-blue-600 font-bold md:w-60 py-3 rounded-lg mt-2">
                                 Subscribe Now
                             </button>
                         </div>
 
-                        <div class="absolute -bottom-30 -right-20 w-50 h-50 border-4 border-white/80 rounded-full"></div>
+                        <div className="absolute -bottom-30 -right-20 w-50 h-50 border-4 border-white/80 rounded-full"></div>
                     </section>
                 </main>
                 <Footer></Footer>
